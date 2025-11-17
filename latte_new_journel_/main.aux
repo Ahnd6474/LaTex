@@ -1,0 +1,103 @@
+\relax 
+\bibstyle{sn-vancouver-num}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\Newlabel{1}{1}
+\citation{Anfinsen1973,BrandenTooze1999,DillMacCallum2012}
+\citation{rives2021biological}
+\citation{lin2022esmfold,jumper2021highly}
+\citation{Hayes2025ESM3}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Background}{2}{section.1}\protected@file@percent }
+\newlabel{sec:introduction}{{1}{2}{Background}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Protein}{2}{subsection.1.1}\protected@file@percent }
+\newlabel{subsec:protein}{{1.1}{2}{Protein}{subsection.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Deep Learning}{2}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}ESM-2 and ESMS}{2}{subsection.1.3}\protected@file@percent }
+\newlabel{subsec:esm}{{1.3}{2}{ESM-2 and ESMS}{subsection.1.3}{}}
+\citation{Altschul1990}
+\citation{Karlin1990}
+\citation{Camacho2009}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}BLAST}{3}{subsection.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Deep Learning-based Search Algorithms for Protein Retrieval}{3}{subsection.1.5}\protected@file@percent }
+\newlabel{sec:dl-search}{{1.5}{3}{Deep Learning-based Search Algorithms for Protein Retrieval}{subsection.1.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}Our Contribution}{3}{subsection.1.6}\protected@file@percent }
+\citation{johnson2016perceptual}
+\citation{kingma2014adam}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Methods}{4}{section.2}\protected@file@percent }
+\newlabel{sec:methods}{{2}{4}{Methods}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Shaping the latent space}{4}{subsection.2.1}\protected@file@percent }
+\newlabel{eq:loss-phase1}{{3}{4}{Shaping the latent space}{equation.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Hyperparameters for LATTE.}}{4}{table.caption.4}\protected@file@percent }
+\newlabel{tab:hyperparams}{{1}{4}{Hyperparameters for LATTE}{table.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The architecture of LATTE. An input sequence is processed by a 4 layer Transformer Encoder, which outputs the parameters (mean and log variance) of the latent distribution. A latent vector is sampled and then reconstructed into the output sequence by a 4 layer Transformer Decoder.}}{5}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:Latte_arch}{{1}{5}{The architecture of LATTE. An input sequence is processed by a 4 layer Transformer Encoder, which outputs the parameters (mean and log variance) of the latent distribution. A latent vector is sampled and then reconstructed into the output sequence by a 4 layer Transformer Decoder}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Model Selection}{5}{subsection.2.2}\protected@file@percent }
+\newlabel{sec:Model Selection}{{2.2}{5}{Model Selection}{subsection.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces CE and KL values over epochs with structural loss.}}{5}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:ablation_structural}{{2}{5}{CE and KL values over epochs with structural loss}{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {CE over epochs}}}{5}{subfigure.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {KL over epochs}}}{5}{subfigure.2.2}\protected@file@percent }
+\citation{lambert2019fpbase}
+\citation{RasmussenWilliams2006}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Adaptive Elbow Search}}{6}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:Elbowsearch}{{3}{6}{Adaptive Elbow Search}{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Tree dendogram}}{6}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:Tree dendogram}{{4}{6}{Tree dendogram}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}LLAST}{6}{subsection.2.3}\protected@file@percent }
+\citation{maaten2008visualizing}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces GFP spectral prediction pipelines on different embeddings.}}{7}{table.caption.9}\protected@file@percent }
+\newlabel{tab:fp-esm2-compare}{{2}{7}{GFP spectral prediction pipelines on different embeddings}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{7}{section.3}\protected@file@percent }
+\newlabel{sec:results}{{3}{7}{Results}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Case Study: Fluorescent Protein (FP) Analysis and Generation}{7}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:fp_application}{{3.1}{7}{Case Study: Fluorescent Protein (FP) Analysis and Generation}{subsection.3.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Classification report on the training set.}}{7}{table.caption.10}\protected@file@percent }
+\newlabel{tab:class_report_train}{{3}{7}{Classification report on the training set}{table.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Classification report on the test set.}}{8}{table.caption.11}\protected@file@percent }
+\newlabel{tab:class_report_test}{{4}{8}{Classification report on the test set}{table.caption.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Statistics for FP clusters identified by k-means.}}{8}{table.caption.13}\protected@file@percent }
+\newlabel{tab:cluster_stats}{{5}{8}{Statistics for FP clusters identified by k-means}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Embedding geometry of LATTE vs.\ ESM-2 (cosine distance)}{8}{subsection.3.2}\protected@file@percent }
+\citation{Vieira2025Medium}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Pairwise cosine distance (1 $-$ cosine similarity) summary for LATTE vs.\ ESM-2 embeddings.}}{9}{table.caption.15}\protected@file@percent }
+\newlabel{tab:pairwise-cosine-summary}{{6}{9}{Pairwise cosine distance (1 $-$ cosine similarity) summary for LATTE vs.\ ESM-2 embeddings}{table.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Pairwise cosine distance distributions (left, density histograms) and ECDFs (right) for LATTE latent vs.\ ESM-2 embeddings.}}{9}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:pairwise-cosine}{{5}{9}{Pairwise cosine distance distributions (left, density histograms) and ECDFs (right) for LATTE latent vs.\ ESM-2 embeddings}{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Ablation Study}{9}{subsection.3.3}\protected@file@percent }
+\newlabel{subsec:Ablation_study}{{3.3}{9}{Ablation Study}{subsection.3.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces ESM (y) vs.\ LATTE (x) pairwise cosine distances for matched pairs. The dashed line marks $y{=}x$; the solid line is an OLS fit ($b{=}0.125$, $a{=}0.017$; $R^2{=}0.277$). Spearman $\rho {=}0.761$ indicates strong rank concordance despite scale compression in ESM.}}{10}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:esm-LATTE-scatter}{{6}{10}{ESM (y) vs.\ LATTE (x) pairwise cosine distances for matched pairs. The dashed line marks $y{=}x$; the solid line is an OLS fit ($b{=}0.125$, $a{=}0.017$; $R^2{=}0.277$). Spearman $\rho {=}0.761$ indicates strong rank concordance despite scale compression in ESM}{figure.caption.17}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Silhouette (cosine), $k{=}3$.}}{10}{table.caption.21}\protected@file@percent }
+\newlabel{tab:k3-silhouette}{{7}{10}{Silhouette (cosine), $k{=}3$}{table.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Pairwise cosine distance matrices for the 354 sequence subset in the two embedding spaces. Left: LATTE; right: ESM.}}{11}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:cosmat-compare}{{7}{11}{Pairwise cosine distance matrices for the 354 sequence subset in the two embedding spaces. Left: LATTE; right: ESM}{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces CE and KL values over epochs for the ablation study model without structural loss.}}{11}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:ablation_no_structural}{{8}{11}{CE and KL values over epochs for the ablation study model without structural loss}{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {CE over epochs}}}{11}{subfigure.8.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {KL over epochs}}}{11}{subfigure.8.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Summary of $k{=}3$ clustering agreement.}}{11}{table.caption.23}\protected@file@percent }
+\newlabel{tab:k3-summary}{{8}{11}{Summary of $k{=}3$ clustering agreement}{table.caption.23}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Confusion matrix (rows: LATTE aligned clusters; columns: ESM-2 clusters).}}{12}{table.caption.25}\protected@file@percent }
+\newlabel{tab:k3-confusion}{{9}{12}{Confusion matrix (rows: LATTE aligned clusters; columns: ESM-2 clusters)}{table.caption.25}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Per cluster sizes and reported means ($\mu $).}}{12}{table.caption.27}\protected@file@percent }
+\newlabel{tab:k3-clusters}{{10}{12}{Per cluster sizes and reported means ($\mu $)}{table.caption.27}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}LLAST Results}{12}{subsection.3.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces LLAST operating points on a $\sim 10^6$-sequence database (991 queries). $N_{\max }$ is the upper bound on the number of candidates forwarded to BLAST per query.}}{12}{table.caption.29}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Sequence recall histograms of the prefiltering step for different TopK values (1--5). Each panel shows the distribution of per-query recall, i.e., the fraction of the baseline BLAST top hits that are preserved after latent-space prefiltering.}}{13}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:seqrecall_topk}{{9}{13}{Sequence recall histograms of the prefiltering step for different TopK values (1--5). Each panel shows the distribution of per-query recall, i.e., the fraction of the baseline BLAST top hits that are preserved after latent-space prefiltering}{figure.caption.30}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {TopK=1}}}{13}{subfigure.9.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {TopK=2}}}{13}{subfigure.9.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {TopK=3}}}{13}{subfigure.9.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {TopK=4}}}{13}{subfigure.9.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {TopK=5}}}{13}{subfigure.9.5}\protected@file@percent }
+\bibdata{reference}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion and future directions}{14}{section.4}\protected@file@percent }
+\newlabel{sec:discussion}{{4}{14}{Discussion and future directions}{section.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{14}{section.5}\protected@file@percent }
+\newlabel{sec:conclusion}{{5}{14}{Conclusion}{section.5}{}}
+\citation{fpbase_site}
+\citation{ahn_kaggle_fp}
+\citation{latte_github_repo}
+\gdef \@abspage@last{16}
