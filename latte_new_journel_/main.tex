@@ -157,7 +157,7 @@ Proteins are linear polymers of amino acids linked by peptide bonds, whose three
 
 \subsection{Deep Learning}
 Deep learning accelerated protein modeling by learning transferable sequence representations at scale. We defer architectural details to Methods and focus here on the motivation and role of the latent space in design.
-Deep learning has transformed protein modeling by learning high dimensional sequence representations that implicitly encode structural and functional constraints from large unlabeled corpora. Masked language model PLMs (e.g., ESM-2) capture long range residue couplings and, via ESMFold, enable accurate single sequence structure prediction; ESM-3 further couples sequence, structure, and function for editing/design. However, these foundation models carry latency and memory costs that impede large scale screening and iterative design. To complement them, we adopt a compact VAE style encoder–decoder whose latent variables remain active and informative, regularized by perceptual losses against ESMS so that geometry aligns with structure. The resulting latents support fast clustering/retrieval and downstream property models while remaining competitive for transfer at a fraction of the compute, and they serve as the basis for our pre alignment pruning (LLAST) that reduces search without sacrificing interpretability.
+Deep learning has transformed protein modeling by learning high dimensional sequence representations that implicitly encode structural and functional constraints from large unlabeled corpora. Masked language model PLMs (e.g., ESM-2) capture long range residue couplings and, via ESMFold, enable accurate single sequence structure prediction; ESM-3 further couples sequence, structure, and function for editing/design. However, these foundation models carry latency and memory costs that impede large scale screening and iterative design. To complement them, we adopt a compact VAE~\citep{kingma2013autoencoding} style encoder–decoder whose latent variables remain active and informative, regularized by perceptual losses against ESMS so that geometry aligns with structure. The resulting latents support fast clustering/retrieval and downstream property models while remaining competitive for transfer at a fraction of the compute, and they serve as the basis for our pre alignment pruning (LLAST) that reduces search without sacrificing interpretability.
 
 
 
@@ -177,7 +177,7 @@ While less sensitive than optimal dynamic programming alignment, BLAST scales ef
 \subsection{Deep Learning-based Search Algorithms for Protein Retrieval}
 \label{sec:dl-search}
 
-Transformer-based protein language models map an input sequence $x$ to an embedding $z = f_\theta(x) \in \mathbb{R}^d$. Given a database $\mathcal{D} = \{z_i\}_{i=1}^N$ and a query $z_q$, protein retrieval is formulated as nearest-neighbor search under a similarity score $s(z_q, z_i)$ such as cosine similarity or an inner product in the maximum inner product search (MIPS) setting. A naive top-$k$ search evaluates $s(z_q, z_i)$ for all $N$ items, with $O(Nd)$ time per query, and becomes prohibitive as $N$ grows.
+Transformer-based protein language models map an input sequence $x$ to an embedding $z = f_\theta(x) \in \mathbb{R}^d$~\citep{vaswani2017attention}. Given a database $\mathcal{D} = \{z_i\}_{i=1}^N$ and a query $z_q$, protein retrieval is formulated as nearest-neighbor search under a similarity score $s(z_q, z_i)$ such as cosine similarity or an inner product in the maximum inner product search (MIPS) setting. A naive top-$k$ search evaluates $s(z_q, z_i)$ for all $N$ items, with $O(Nd)$ time per query, and becomes prohibitive as $N$ grows.
 
 Learning-based search algorithms alleviate this cost by building an index over $\mathcal{D}$ that exploits the geometry of the embedding space. Graph-based methods connect each database point to a small set of neighbors and perform a greedy search that walks toward higher-similarity nodes while exploring only a limited frontier, so the number of similarity evaluations is governed by graph degree and search depth rather than directly by $N$. Cluster-based methods instead partition the space into $K$ cells via a coarse quantizer and probe only a few cells nearest to $z_q$, reducing the scanned candidates from $N$ to roughly $(N/K)\,\texttt{nprobe}$; variants combine this with product quantization or hashing to further accelerate distance computation.
 
@@ -242,13 +242,13 @@ Model selection favored the epoch~380 checkpoint (LATTE \_ 380), which balanced 
  \label{fig:ablation_structural}\end{figure*}
 
 \subsection{LLAST}
-Unlike generic ANN methods such as LSH or product quantization, which operate on
+Unlike generic Approximate nearest-neighbor (ANN) methods such as locality-sensitive hashing~\citep{indyk1998approximate} or product quantization~\citep{jegou2011product}, which operate on
 fixed embeddings, LLAST builds a task-specific hierarchical index over the
 structure-informed LATTE latent space. This allows us to reuse the same latent
 representation for generative design, property prediction, and sequence search.
 
 
-We introdouced Latte Latent Alignment Search Tool(LLAST). We clustered protein sequences in a latent space using k means under cosine distance (via L2 row normalization), then applied agglomerative hierarchical clustering to obtain a tree index. This tree serves as a prefilter, pruning sequences with dissimilar latent vectors before downstream alignment. The number of clusters K was selected by Kneedle knee detection on the mean cosine k means cost curve, with adaptive 10 way interval refinement around the elbow. 
+We introdouced Latte Latent Alignment Search Tool(LLAST). We clustered protein sequences in a latent space using k means under cosine distance (via L2 row normalization), then applied agglomerative hierarchical clustering~\citep{murtagh2014ward} to obtain a tree index. This tree serves as a prefilter, pruning sequences with dissimilar latent vectors before downstream alignment. The number of clusters K was selected by Kneedle knee detection on the mean cosine k means cost curve, with adaptive 10 way interval refinement around the elbow. 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{img/figure3.png}
@@ -335,7 +335,7 @@ Weighted Avg & 0.9787 & 0.9787 & 0.9787 & 188 \\
 
 The latent space visualization via t-SNE clearly separates fluorescent from non fluorescent proteins and encodes spectral properties as continuous gradients, confirming that structural information is captured effectively \citep{maaten2008visualizing} (Supplementary Figure S4). Non fluorescent proteins cluster on the inner side of two curves, whereas fluorescent proteins occupy the outer region. Moreover, color gradients corresponding to emission and absorption wavelengths indicate that proteins with similar spectral peaks are grouped together.
 
-k-means clustering of the projected FP embeddings revealed three distinct clusters (Table \ref{tab:cluster_stats}), whose consensus vectors were decoded into novel sequences truncated to each cluster’s mean length. Classification of these generated sequences using the trained GP classifier showed that Cluster 1 achieved a 100\% success rate (Supplementary Figure S5), suggesting that intra cluster sample quality and consistency are more critical than sample size for producing functional proteins. The generated proteins exhibited 75\% - 96\% identity with FPbase sequences, reflecting the high similarity of their latent representations.
+k-means clustering of the projected FP embeddings~\citep{lloyd1982least} revealed three distinct clusters (Table \ref{tab:cluster_stats}), whose consensus vectors were decoded into novel sequences truncated to each cluster’s mean length. Classification of these generated sequences using the trained GP classifier showed that Cluster 1 achieved a 100\% success rate (Supplementary Figure S5), suggesting that intra cluster sample quality and consistency are more critical than sample size for producing functional proteins. The generated proteins exhibited 75\% - 96\% identity with FPbase sequences, reflecting the high similarity of their latent representations.
 
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{0.95}
@@ -376,7 +376,7 @@ Distances are systematically smaller in ESM (slope $b{=}0.125$; intercept $a{=}0
 yet the rank correlation remains high (Spearman $\rho{=}0.761$),
 supporting that LATTE preserves ESM’s neighbor ordering while expanding the dynamic range, a property we exploit for latent prefiltering in LLAST.
 
-We report a rerun of k{=}3 clustering to compare LATTE and ESM-2 embeddings. Silhouette scores (cosine) favor LATTE, and cross‑partition agreement metrics indicate strong consistency between the two representations\citep{Vieira2025Medium}.
+We report a rerun of k{=}3 clustering to compare LATTE and ESM-2 embeddings. Silhouette scores (cosine) favor LATTE, and cross‑partition agreement metrics indicate strong consistency between the two representations\citep{Vieira2025Medium}.(Table \ref{tab:k3-summary}, \ref{tab:k3-clusters}, \ref{tab:k3-confusion})
 
 \begin{table}[t]
 \centering
@@ -526,26 +526,7 @@ To assess the functionality of the latent-tree prefilter placed before conventio
     \hline
   \end{tabular}
 \end{table}
-\begin{figure}[t]
-\centering
-\subfloat[TopK=1]{%
-  \includegraphics[width=0.3\linewidth]{img/figure9_result1.png}%
-}
-\subfloat[TopK=2]{%
-  \includegraphics[width=0.3\linewidth]{img/figure9_result2.png}%
-}
-\subfloat[TopK=3]{%
-  \includegraphics[width=0.3\linewidth]{img/figure9_result3.png}%
-}\\
-\subfloat[TopK=4]{%
-  \includegraphics[width=0.3\linewidth]{img/figure9_result4.png}%
-}
-\subfloat[TopK=5]{%
-  \includegraphics[width=0.3\linewidth]{img/figure9_result5.png}%
-}
-\caption{Sequence recall histograms of the prefiltering step for different TopK values (1--5). Each panel shows the distribution of per-query recall, i.e., the fraction of the baseline BLAST top hits that are preserved after latent-space prefiltering.}
-\label{fig:seqrecall_topk}
-\end{figure}
+
 
 Across 991 protein queries, the most conservative configuration ($N_{\max} = 10{,}000$, corresponding to $\sim 0.97\%$ of the database) achieved a mean SeqRecall@50 of approximately $0.55$ while reducing the BLAST search space by roughly $100\times$ relative to scanning all $N \approx 10^6$ sequences. A more aggressive configuration with $N_{\max} = 4000$ (about $0.38\%$ of the database) maintained a mean SeqRecall@50 of $\sim 0.53$, i.e.\ only a $3$--$4\%$ relative decrease in coverage, while shrinking the candidate set by a factor of $\sim 260\times$. The most aggressive setting ($N_{\max} = 2000$) reduced the average candidate count to $\sim 0.18\%$ of the database (over $500\times$ reduction), but at the cost of a pronounced drop in SeqRecall@50 and occasional zero-recall queries on the hardest inputs. These operating points illustrate that the latent prefilter can substantially reduce BLAST workload while allowing practitioners to tune the recall--latency trade-off via a single hyperparameter.
 
@@ -574,7 +555,33 @@ where $T_{\text{encode}}$ is the (database-independent) cost of encoding a singl
 \end{equation}
 When $S$ and $K$ are treated as fixed hyperparameters (i.e.\ the leaf capacity and the search budget are held constant), the dominant term in $T_{\text{prefilter}}(N)$ becomes $KS$, and the residual dependence on $N$ is only logarithmic via $\log(N/S)$. In practice, this makes the per-query BLAST workload effectively bounded by a constant over database sizes up to at least $10^7$--$10^8$ sequences, whereas the cost of conventional BLAST continues to grow proportionally with $N$. This bounded candidate set is precisely what allows LLAST to maintain practical query times as the database scales to tens or hundreds of millions of sequences.
 
- 
+ \begin{figure}[t]
+\centering
+\subfloat[TopK=1]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result1.png}%
+}
+\subfloat[TopK=2]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result2.png}%
+}
+\subfloat[TopK=3]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result3.png}%
+}\\
+\subfloat[TopK=4]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result4.png}%
+}
+\subfloat[TopK=5]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result5.png}%
+}
+\caption{Sequence recall histograms of the prefiltering step for different TopK values (1--5). Each panel shows the distribution of per-query recall, i.e., the fraction of the baseline BLAST top hits that are preserved after latent-space prefiltering.}
+\label{fig:seqrecall_topk}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/figure10.png}
+    \label{fig:placeholder}
+    \caption{Overlapped histogram}
+\end{figure}
 \section{Discussion and future directions}
 
 \label{sec:discussion}
