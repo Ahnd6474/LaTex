@@ -136,11 +136,11 @@
 
 
 \abstract{
-\textbf{Background:} Large protein language models (PLMs) such as ESM-2 yield structure-sensitive sequence embeddings but are expensive to store and query at scale. We sought a compact latent model that preserves structural signal while supporting property prediction, and approximate sequence search.
+\textbf{Background: } Large protein language models (PLMs) such as ESM-2 yield structure-sensitive sequence embeddings but are expensive to store and query at scale. We sought a compact latent model that preserves structural signal while supporting property prediction, and approximate sequence search.
 
-\textbf{Results:} We introduce LATTE, a structure-aware encoder trained on UniRef50 with a composite loss that couples sequence reconstruction, Kullback--Leibler regularization, and a structural term supervising inter-residue similarity. LATTE reconstructs unseen UniRef50 sequences with 97.17\% accuracy and remains robust to injected latent noise. Gaussian process models trained on the 256-dimensional latent space classify fluorescent proteins (FPs) versus non-FPs with five-fold cross-validation accuracy of 0.987 and predict excitation/emission peaks with root mean square errors of 2.70~nm and 3.80~nm, matching an ESM-2 (650M) embedding baseline while using a far smaller parameter budget. On a matched subset, pairwise cosine distance distributions are broader and heavier-tailed for LATTE than for ESM-2, yet the two spaces exhibit strong rank concordance (Spearman $\rho = 0.761$) and similar $k = 3$ clustering partitions, indicating preserved neighbour ordering with expanded dynamic range. Building on this representation, we construct the LATTE Latent Alignment Search Tool (LLAST), a latent-tree index used as a prefilter before BLAST. On a protein database of approximately $10^6$ sequences, LLAST restricts the candidate set forwarded to BLAST to at most $10^4$ sequences per query ($\approx 0.97\%$ of the database) while recovering around 55\% of baseline BLAST top-50 hits, demonstrating an aggressive but tunable trade-off between recall and workload reduction.
+\textbf{Results: } We introduce LATTE, a structure-aware encoder trained on UniRef50 with a composite loss that couples sequence reconstruction, Kullback--Leibler regularization, and a structural term supervising inter-residue similarity. LATTE reconstructs unseen UniRef50 sequences with 97.17\% accuracy and remains robust to injected latent noise. Gaussian process models trained on the 256-dimensional latent space classify fluorescent proteins (FPs) versus non-FPs with five-fold cross-validation accuracy of 0.987 and predict excitation/emission peaks with root mean square errors of 2.70~nm and 3.80~nm, matching an ESM-2 (650M) embedding baseline while using a far smaller parameter budget. On a matched subset, pairwise cosine distance distributions are broader and heavier-tailed for LATTE than for ESM-2, yet the two spaces exhibit strong rank concordance (Spearman $\rho = 0.761$) and similar $k = 3$ clustering partitions, indicating preserved neighbour ordering with expanded dynamic range. Building on this representation, we construct the LATTE Latent Alignment Search Tool (LLAST), a latent-tree index used as a prefilter before BLAST. On a protein database of approximately $10^6$ sequences, LLAST restricts the candidate set forwarded to BLAST to at most $10^4$ sequences per query ($\approx 0.97\%$ of the database) while recovering around 55\% of baseline BLAST top-50 hits, demonstrating an aggressive but tunable trade-off between recall and workload reduction.
 
-\textbf{Conclusions:} LATTE provides a compact, structure-aligned latent space that supports accurate reconstruction, downstream property prediction, and tree-based prefiltering prior to alignment. This combination suggests a general path toward lightweight, task-aware indices for scalable protein sequence search and design.
+\textbf{Conclusions: } LATTE provides a compact, structure-aligned latent space that supports accurate reconstruction, downstream property prediction, and tree-based prefiltering prior to alignment. This combination suggests a general path toward lightweight, task-aware indices for scalable protein sequence search and design.
 }
 
 \keywords{protein language model; structural loss; fluorescent proteins; embedding geometry; cosine distance; bioinformatics}
@@ -256,7 +256,7 @@ structure-informed LATTE latent space. This allows us to reuse the same latent
 representation for generative design, property prediction, and sequence search.
 
 
-We introdouced Latte Latent Alignment Search Tool(LLAST). We clustered protein sequences in a latent space using k means under cosine distance (via L2 row normalization), then applied agglomerative hierarchical clustering~\citep{murtagh2014ward} to obtain a tree index. This tree serves as a prefilter, pruning sequences with dissimilar latent vectors before downstream alignment. The number of clusters K was selected by Kneedle knee detection on the mean cosine k means cost curve, with adaptive 10 way interval refinement around the elbow. 
+We introduced Latte Latent Alignment Search Tool(LLAST). We clustered protein sequences in a latent space using k means under cosine distance (via L2 row normalization), then applied agglomerative hierarchical clustering~\citep{murtagh2014ward} to obtain a tree index. This tree serves as a prefilter, pruning sequences with dissimilar latent vectors before downstream alignment. The number of clusters K was selected by Kneedle knee detection on the mean cosine k means cost curve, with adaptive 10 way interval refinement around the elbow. 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{img/figure3.png}
@@ -518,7 +518,7 @@ Purity (LATTE $\rightarrow$ ESM-2) & \multicolumn{2}{c}{0.9633} \\
 
 \subsection{LLAST Results}
 
-To assess the functionality of the latent-tree prefilter placed before conventional BLAST, we quantified both its coverage and efficiency. Coverage was measured as the fraction of baseline BLAST top-50 unique hits that were recovered after prefiltering (SeqRecall@50). Efficiency was evaluated as the number of sequences actually forwarded from the prefilter to BLAST per query, i.e.\ the effective candidate set size. The underlying database contained approximately $N \approx 10^6$ protein sequences. The latent-tree index was constructed with a target leaf (cluster) capacity of about $S \approx 2000$ sequences, and each query was restricted to visiting a fixed number $K$ of leaves (top-$K$ nodes in the latent-tree search). We further imposed an explicit upper bound $N_{\max} \in \{2000, 4000, 6000, 8000, 10000\}$ on the total number of candidate sequences passed to BLAST per query, yielding a family of operating points that trade off coverage and speed.
+To assess the functionality of the latent tree prefilter placed before conventional BLAST, we quantified both its coverage and efficiency. Coverage was measured as the fraction of baseline BLAST top-50 unique hits that were recovered after prefiltering (SeqRecall@50). Efficiency was evaluated as the number of sequences actually forwarded from the prefilter to BLAST per query, i.e.\ the effective candidate set size. The underlying database contained approximately $N \approx 10^6$ protein sequences. The latent-tree index was constructed with a target leaf (cluster) capacity of about $S \approx 2000$ sequences, and each query was restricted to visiting a fixed number $K$ of leaves (top-$K$ nodes in the latent-tree search). We further imposed an explicit upper bound $N_{\max} \in \{2000, 4000, 6000, 8000, 10000\}$ on the total number of candidate sequences passed to BLAST per query, yielding a family of operating points that trade off coverage and speed.
 \begin{table}[!ht]
   \centering
   \caption{LLAST operating points on a $\sim 10^6$-sequence database (991 queries). $N_{\max}$ is the upper bound on the number of candidates forwarded to BLAST per query.}
@@ -561,7 +561,7 @@ where $T_{\text{encode}}$ is the (database-independent) cost of encoding a singl
 \begin{equation}
   T_{\text{BLAST}}(N) \;=\; O(N).
 \end{equation}
-When $S$ and $K$ are treated as fixed hyperparameters (i.e.\ the leaf capacity and the search budget are held constant), the dominant term in $T_{\text{prefilter}}(N)$ becomes $KS$, and the residual dependence on $N$ is only logarithmic via $\log(N/S)$. In practice, this makes the per-query BLAST workload effectively bounded by a constant over database sizes up to at least $10^7$--$10^8$ sequences, whereas the cost of conventional BLAST continues to grow proportionally with $N$. This bounded candidate set is precisely what allows LLAST to maintain practical query times as the database scales to tens or hundreds of millions of sequences.
+When $S$ and $K$ are treated as fixed hyperparameters (i.e.\ the leaf capacity and the search budget are held constant), experimentation revealed that the dominant term in $T_{\text{prefilter}}(N)$ becomes $KS$, and the residual dependence on $N$ is only logarithmic via $\log(N/S)$. In practice, this makes the per-query BLAST workload effectively bounded by a constant over database sizes up to at least $10^7$--$10^8$ sequences, whereas the cost of conventional BLAST continues to grow proportionally with $N$. This bounded candidate set is precisely what allows LLAST to maintain practical query times as the database scales to tens or hundreds of millions of sequences.
 
  \begin{figure}[t]
 \centering
@@ -690,8 +690,8 @@ statistics.
 
 In practice, these discrepancies are acceptable in view of the operating points we
 observe: configurations with $N_{\max} = 4{,}000$–$10{,}000$ retain roughly 0.53–0.55
-SeqRecall@50 while reducing the average BLAST workload by 100–260× on a
-$\sim 10^6$-sequence database, making exact replication of baseline BLAST hits a
+SeqRecall@50 while reducing the average BLAST workload by ×100$\sim$260 on a
+$ 10^6$ sequence database, making exact replication of baseline BLAST hits a
 poor trade-off compared with the achievable efficiency gains.
 
 \subsection{Relation to MMseqs2 and sequence-based prefilters}
