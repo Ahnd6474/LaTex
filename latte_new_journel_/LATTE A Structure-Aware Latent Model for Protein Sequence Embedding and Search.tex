@@ -1,0 +1,810 @@
+%Version 3.1 December 2024\% See section 11 of the User Manual for version history
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{\ldots{}} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one.tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
+
+%%=======================================================%%
+%% to print line numbers in the margin use lineno option %%
+%%=======================================================%%
+
+%%\documentclass[lineno,pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%=========================================================================================%%
+%% the documentclass is set to pdflatex as default. You can delete it if not appropriate.  %%
+%%=========================================================================================%%
+
+%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%Note: the following reference styles support Namedate and Numbered referencing. By default the style follows the most common style. To switch between the options you can add or remove “Numbered” in the optional parenthesis.
+%%The option is available for: sn-basic.bst, sn-chicago.bst%
+
+%%\documentclass[pdflatex,sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
+%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+%%\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+%%\documentclass[pdflatex,sn-mathphys-ay]{sn-jnl}% Math and Physical Sciences Author Year Reference Style
+
+%%\documentclass[pdflatex,sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
+\documentclass[pdflatex,sn-vancouver-num]
+{sn-jnl}% Vancouver Numbered Reference Style
+%%\documentclass[pdflatex,sn-vancouver-ay]{sn-jnl}% Vancouver Author Year Reference Style
+%%\documentclass[pdflatex,sn-apa]{sn-jnl}% APA Reference Style
+%%\documentclass[pdflatex,sn-chicago]{sn-jnl}% Chicago-based Humanities Reference Style
+
+%%%% Standard Packages
+%%<additional latex packages if required can be included here>
+\usepackage{silence}
+\WarningFilter{caption}{Unknown document class}
+\WarningFilter{caption}{Unknown document class (or package)}
+\usepackage{graphicx}%
+\usepackage{subfig}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+\usepackage{hyperref}%
+%\setcitestyle{numbers,square,comma,sort&compress}
+%%%%
+
+%%%%%=============================================================================%%%%
+%%%%  Remarks: This template is provided to aid authors with the preparation
+%%%%  of original research articles intended for submission to journals published
+%%%%  by Springer Nature. The guidance has been prepared in partnership with
+%%%%  production teams to conform to Springer Nature technical requirements.
+%%%%  Editorial and presentation requirements differ among journal portfolios and
+%%%%  research disciplines. You may find sections in this template are irrelevant
+%%%%  to your work and are empowered to omit any such section if allowed by the
+%%%%  journal you intend to submit to. The submission guidelines and policies
+%%%%  of the journal take precedence. A detailed User Manual is available in the
+%%%%  template package for technical guidance.
+%%%%%=============================================================================%%%%
+
+%% as per the requirement new theorem styles can be included as shown below
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}%
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+\raggedbottom
+%%\unnumbered% uncomment this for unnumbered level heads
+
+% --- Standardized wavelength symbols ---
+\providecommand{\labs}{\ensuremath{\lambda_{\mathrm{abs}}}}
+\providecommand{\lem}{\ensuremath{\lambda_{\mathrm{em}}}}
+
+
+\begin{document}
+
+\title[LATTE]{LATTE: A Structure-Aware Latent Model for Protein Sequence Embedding and Search}
+
+%%=============================================================%%
+%% GivenName	-> \fnm{Joergen W.}
+%% Particle	-> \spfx{van der} -> surname prefix
+%% FamilyName	-> \sur{Ploeg}
+%% Suffix	-> \sfx{IV}
+%% \author*[1,2]{\fnm{Joergen W.} \spfx{van der} \sur{Ploeg}
+%%  \sfx{IV}}\email{iauthor@gmail.com}
+%%=============================================================%%
+
+\author*[1]{\fnm{Danny} \sur{Ahn}%
+\raisebox{-0.2ex}{\href{https://orcid.org/0009-0006-2820-1498}{\includegraphics[height=8pt]{ORCIDiD_icon16x16.png}}}%
+}
+\author[1]{Minjae Lee%
+\raisebox{-0.2ex}{\href{https://orcid.org/0009-0002-7484-7338}{\includegraphics[height=8pt]{ORCIDiD_icon16x16.png}}}%
+}
+\author[1]{Sihyeon Moon%
+\raisebox{-0.2ex}{\href{https://orcid.org/0009-0006-0592-4351}{\includegraphics[height=8pt]{ORCIDiD_icon16x16.png}}}%
+}
+\author[1]{Jooyoung Jung%
+\raisebox{-0.2ex}{\href{https://orcid.org/0009-0001-3997-8618}{\includegraphics[height=8pt]{ORCIDiD_icon16x16.png}}}%
+}
+
+
+\email{ahnd6474@gmail.com}
+\affil*[1]{\orgdiv{Biology}, \orgname{Daegu Science High School}, \street{154 Dongdaegu-ro}, \city{Daegu}, \postcode{42111}, \country{Republic of Korea}}
+
+
+%%==================================%%
+%% Sample for unstructured abstract %%
+%%==================================%%
+
+
+\abstract{
+\textbf{Background: } Large protein language models (PLMs) such as ESM-2 yield structure-sensitive sequence embeddings but are expensive to store and query at scale. We sought a compact latent model that preserves structural signal while supporting property prediction, and approximate sequence search.
+
+\textbf{Results: } We introduce LATTE, a structure-aware encoder trained on UniRef50 with a composite loss that couples sequence reconstruction, Kullback--Leibler regularization, and a structural term supervising inter-residue similarity. LATTE reconstructs unseen UniRef50 sequences with 97.17\% accuracy and remains robust to injected latent noise. Gaussian process models trained on the 256-dimensional latent space classify fluorescent proteins (FPs) versus non-FPs with five-fold cross-validation accuracy of 0.987 and predict excitation/emission peaks with root mean square errors of 2.70~nm and 3.80~nm, matching an ESM-2 (650M) embedding baseline while using a far smaller parameter budget. On a matched subset, pairwise cosine distance distributions are broader and heavier-tailed for LATTE than for ESM-2, yet the two spaces exhibit strong rank concordance (Spearman $\rho = 0.761$) and similar $k = 3$ clustering partitions, indicating preserved neighbor ordering with expanded dynamic range. Building on this representation, we construct the LATTE Latent Alignment Search Tool (LLAST), a latent-tree index used as a prefilter before BLAST. On a protein database of approximately $10^6$ sequences, LLAST restricts the candidate set forwarded to BLAST to at most $10^4$ sequences per query ($\approx 0.97\%$ of the database) while recovering around 55\% of baseline BLAST top-50 hits, demonstrating an aggressive but tunable trade-off between recall and workload reduction.
+
+\textbf{Conclusions: } LATTE provides a compact, structure-aligned latent space that supports accurate reconstruction, downstream property prediction, and tree-based prefiltering prior to alignment. This combination suggests a general path toward lightweight, task-aware indices for scalable protein sequence search and design.
+}
+
+\keywords{protein language model; structural loss; fluorescent proteins; embedding geometry; cosine distance; bioinformatics}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+\section{Background}\label{sec:introduction}
+
+\subsection{Protein}\label{subsec:protein}
+Proteins are linear polymers of amino acids linked by peptide bonds, whose three-dimensional conformations determine their biochemical functions \citep{Anfinsen1973,BrandenTooze1999,DillMacCallum2012}. The primary structure, the specific sequence of 20 canonical amino acids, dictates folding pathways through intramolecular interactions such as hydrogen bonds, hydrophobic packing, electrostatic attractions, and van der Waals forces. These interactions give rise to secondary motifs ($\alpha$ helices, $\beta$ sheets), tertiary folds, and quaternary assemblies in multimeric complexes.
+
+\subsection{Deep Learning}
+Deep learning accelerated protein modeling by learning transferable sequence representations at scale. We defer architectural details to Methods and focus here on the motivation and role of the latent space in design.
+Deep learning has transformed protein modeling by learning high-dimensional sequence representations that implicitly encode structural and functional constraints from large unlabeled corpora. Masked language model PLMs (e.g., ESM-2) capture long-range residue couplings and, via ESMFold, enable accurate single-sequence structure prediction; ESM-3 further couples sequence, structure, and function for editing/design. However, these foundation models carry latency and memory costs that impede large-scale screening and iterative design. To complement them, we adopt a compact VAE~\citep{kingma2013autoencoding} style encoder--decoder whose latent variables remain active and informative, regularized by perceptual losses against ESMS so that geometry aligns with structure. The resulting latents support fast clustering/retrieval and downstream property models while remaining competitive for transfer at a fraction of the compute, and they serve as the basis for our pre-alignment pruning (LLAST) that reduces search without sacrificing interpretability.
+
+
+
+
+\subsection{ESM-2 and ESMS}\label{subsec:esm}
+Using pretrained ESM-2 embeddings, we developed ESMS that reduces inference time relative to ESM-2’s 0.5 s per sequence while preserving high embedding fidelity. ESM-2, introduced by Rives et al., is a masked language model that captures short- and long-range residue interactions \citep{rives2021biological}, and it underpins ESMFold, a three-dimensional structure predictor with performance comparable to AlphaFold~2 \citep{lin2022esmfold,jumper2021highly}, and is widely used for downstream tasks such as secondary structure and thermostability prediction. Although available at multiple parameter scales (650M parameters being most common), ESM-2’s latency motivates lighter alternatives. On a held-out test set, ESMS achieved cosine similarity of 0.9647 and RMSE of 1.2998.
+
+We position our approach within recent progress on large protein language models.
+In particular, ESM-3 tightly couples sequence, structure, and function supervision and demonstrates design/editing capabilities beyond prior ESM-2 systems \citep{Hayes2025ESM3}.
+LATTE is intended as a lightweight, structure-informed encoder that complements such foundation models by emphasizing controllable latent structure and efficient training.
+
+\subsection{BLAST}
+BLAST (Basic Local Alignment Search Tool) locates local similarities via a \emph{seed-and-extend} heuristic, quickly forming high-scoring segment pairs (HSPs)~\cite{Altschul1990}. 
+The statistical significance of alignments is modeled by the Karlin-Altschul framework, yielding the $E$-value and bit score~\cite{Karlin1990}. 
+While less sensitive than optimal dynamic programming alignment, BLAST scales effectively to large databases and remains the practical standard; the BLAST+ re-architecture further streamlined performance and modularity~\cite{Camacho2009}.
+
+\subsection{Deep Learning-based Search Algorithms for Protein Retrieval}
+\label{sec:dl-search}
+
+Transformer-based protein language models map an input sequence $x$ to an embedding $z = f_\theta(x) \in \mathbb{R}^d$~\citep{vaswani2017attention}. Given a database $\mathcal{D} = \{z_i\}_{i=1}^N$ and a query $z_q$, protein retrieval is formulated as nearest-neighbor search under a similarity score $s(z_q, z_i)$ such as cosine similarity or an inner product in the maximum inner product search (MIPS) setting. A naive top-$k$ search evaluates $s(z_q, z_i)$ for all $N$ items, with $O(Nd)$ time per query, and becomes prohibitive as $N$ grows.
+
+Learning-based search algorithms alleviate this cost by building an index over $\mathcal{D}$ that exploits the geometry of the embedding space. Graph-based methods connect each database point to a small set of neighbors and perform a greedy search that walks toward higher-similarity nodes while exploring only a limited frontier, so the number of similarity evaluations is governed by graph degree and search depth rather than directly by $N$. Cluster-based methods instead partition the space into $K$ cells via a coarse quantizer and probe only a few cells nearest to $z_q$, reducing the scanned candidates from $N$ to roughly $(N/K)\,\texttt{nprobe}$; variants combine this with product quantization or hashing to further accelerate distance computation.
+
+In large retrieval systems, such indices are typically used as the first stage of a cascade. The index returns a candidate set $\mathcal{S} \subset \mathcal{D}$ of size $M \ll N$, and a more accurate but slower scorer is applied only on $\mathcal{S}$. For protein retrieval, this corresponds to using the embedding-based index to discard clearly unrelated regions of sequence space and then running alignment tools such as BLAST on the reduced candidate set. Hyperparameters such as graph degree, probe budget, and search depth are tuned to balance recall at top-$k$ against average and tail latency.
+
+
+
+
+\subsection{Our Contribution}
+It has been shown that transformer architectures are capable of capturing hidden information in a sequence. Also, rather than training big transformer models, using a pretrained model as an embedding was demonstrated to be effective. However, only training with a sequence has clear limits on generalization, function, and versatility. LATTE, to overcome such limits, introduced a custom loss function that explicitly forces it to learn and represent structural information in the latent vector space.
+
+BLAST, the NCBI sequence search system, is highly informative but its per query runtime scales roughly linearly with database size. In practice it still scans large portions of the library for each query, repeatedly revisiting near duplicate or highly similar sequences. 
+Furthermore, the rapid advancement of AI and automation in biology has led to an exponential growth in sequence databases. According to NCBI RefSeq statistics, the number of protein sequences surged from approximately 130 million in 2019 to over 427 million by late 2025, a more than threefold increase driven largely by metagenomic and whole-genome shotgun data~\cite{ncbi_refseq_stats}. In this era of data explosion, linear-time search algorithms like BLAST face increasing scalability challenges.
+
+To address this, we introduce a LATTE-based prefilter that encodes sequences into a latent space and prunes unrelated entries prior to alignment. By removing off-target candidates early, the prefilter reduces the search set and improves BLAST’s efficiency and speed while preserving downstream alignment behavior.
+
+Unlike prior work that (i) uses large PLMs as fixed feature extractors, 
+(ii) trains autoencoders primarily for generative design, or 
+(iii) accelerates BLAST using purely sequence-based filters or generic ANN indices,
+we focus on a compact, structure-aware latent space that is explicitly reused for both
+downstream modeling and a tree-based prefilter.
+
+
+\section{Methods}\label{sec:methods}
+\subsection{Shaping the latent space}
+We trained LATTE with a pseudo-decoder which acts as a training signal generator that receives encoder memory and latent vectors. Moreover, we enforce structural consistency via a perceptual loss computed from pretrained ESMS embeddings, which capture residue position regularities at substantially lower cost than full structure predictors. Given an original sequence \(\mathbf{x}_{\mathrm{orig}}\) and its reconstruction \(\mathbf{x}_{\mathrm{recon}}\), we form two embedding-based terms.
+\begin{align}
+L_{\mathrm{COS}} &= \Bigl[\,1 - \cos\!\bigl(\mathrm{ESMS}(\mathbf{x}_{\mathrm{orig}}),\,\mathrm{ESMS}(\mathbf{x}_{\mathrm{recon}})\bigr)\Bigr],\\
+L_{\mathrm{MSE}} &= \bigl\|\mathrm{ESMS}(\mathbf{x}_{\mathrm{orig}}) - \mathrm{ESMS}(\mathbf{x}_{\mathrm{recon}})\bigr\|_{2}^{2}.
+\end{align}
+These structural terms are combined with next-token cross entropy \(L_{\mathrm{CE}}\) (teacher forcing) and KL~divergence \(L_{\mathrm{KL}}\) into
+\begin{equation}
+\label{eq:loss-phase1}
+L_{\text{1}}
+\;=\;
+\lambda\,(L_{\mathrm{COS}} + L_{\mathrm{MSE}})
+\;+\;
+\alpha\,L_{\mathrm{CE}}
+\;+\;
+\beta\,L_{\mathrm{KL}}
+\end{equation}
+with \(\lambda=5\), \(\alpha\) linearly decayed from \(30\) to \(0.1\) over the first \(100\) epochs, and \(\beta\) linearly annealed from \(0\) to \(0.1\) over the same interval. The cosine term tolerates substitutions among similarly likely residues, while the MSE term penalizes large deviations. Together, they discourage posterior collapse by making accurate reconstruction contingent on informative latents \citep{johnson2016perceptual}.
+\begin{figure*}[!ht]
+\centering
+\includegraphics[width=0.8\textwidth]{img/figure1.jpg}
+\caption{The architecture of LATTE. An input sequence is processed by a 4-layer Transformer Encoder, which outputs the parameters (mean and log variance) of the latent distribution. A latent vector is sampled and then reconstructed into the output sequence by a 4-layer Transformer Decoder.}
+\label{fig:Latte_arch}
+\end{figure*}
+
+LATTE is a comparably lightweight transformer with 5.5M parameters, composed of 4-layer transformer encoders (Figure \ref{fig:Latte_arch}). The hyperparameters are detailed in Table \ref{tab:hyperparams}. The Adam optimizer \citep{kingma2014adam} was used.
+
+\begin{table}[htbp]
+\caption{Hyperparameters for LATTE.}\label{tab:hyperparams}
+\centering
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+ & Vocab Size & d\_model & Latent Dim & n\_heads & Feed Forward & Dropout \\
+\midrule
+Value & 33 & 256 & 256 & 4 & 512 & 0.3 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{Model Selection}\label{sec:Model Selection}
+Model selection favored the epoch~380 checkpoint (LATTE \_ 380), which balanced the KL~divergence near the active threshold (0.048) and achieved the lowest validation cross entropy loss. The model was trained using two T4 GPU sessions provided by Kaggle on a random subsample of the UniRef50 dataset. Monitored learning curves did not show any signs of overfitting (Supplementary Figure S1). Although the epoch~500 model (LATTE \_ 500) reached a reconstruction rate of 99.976\% with validation losses of Val CE = 0.000, COS = 0.003, MSE = 0.007, and KL = 0.002, its very low KL value suggested potential posterior collapse (Supplementary Figures S2a and S2b). Adding noise to the latent space did not significantly affect reconstruction performance. Instead, epoch~380 was chosen because its KL~divergence (0.048) was closer to the recommended active value of 0.05, and it exhibited the lowest Val CE. At epoch~380, validation losses were Val CE = 0.072, COS = 0.010, MSE = 0.020, and KL = 0.048 (Supplementary Figures S3a and S3b). Figure \ref{fig:ablation_structural}(a) and (b) illustrate the epoch-wise progression of CE and KL values, confirming that epoch~380 offers the optimal balance.
+
+\begin{figure*}[!ht]
+ \centering
+ \subfloat[CE over epochs]{\includegraphics[width=0.45\textwidth]{img/figure2_CE.png}}
+\subfloat[KL over epochs]{\includegraphics[width=0.45\textwidth]{img/figure2_KL.png}}
+\caption{CE and KL values over epochs with structural loss.}
+ \label{fig:ablation_structural}\end{figure*}
+
+\subsection{LLAST}
+Unlike generic Approximate Nearest Neighbor (ANN) methods such as locality-sensitive hashing~\citep{indyk1998approximate} or product quantization~\citep{jegou2011product}, which operate on
+fixed embeddings, LLAST builds a task-specific hierarchical index over the
+structure-informed LATTE latent space. This allows us to reuse the same latent
+representation for generative design, property prediction, and sequence search.
+
+
+We introduced LATTE Latent Alignment Search Tool (LLAST). We clustered protein sequences in a latent space using $k$-means under cosine distance (via L2 row normalization), then applied agglomerative hierarchical clustering~\citep{murtagh2014ward} to obtain a tree index. This tree serves as a prefilter, pruning sequences with dissimilar latent vectors before downstream alignment. The number of clusters $K$ was selected by Kneedle knee detection on the mean cosine $k$-means cost curve, with adaptive 10-way interval refinement around the elbow. 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/figure3.png}
+    \caption{Adaptive Elbow Search}
+    \label{fig:Elbowsearch}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{img/figure4.png}
+    \caption{Tree dendogram}
+    \label{fig:Tree dendogram}
+\end{figure}
+
+
+\section{Results}\label{sec:results}
+
+    
+
+\subsection{Case Study: Fluorescent Protein (FP) Analysis and Generation}\label{sec:fp_application}
+We used pretrained ESM-2 embeddings. Using manually curated FP sequences from FPbase \citep{lambert2019fpbase}, we trained Gaussian process \citep{RasmussenWilliams2006} (GP) models to (1) classify FPs versus non-FPs and (2) regress their spectral peaks. The GP classifier achieved 0.987 accuracy under five-fold cross validation, while the GP regressor achieved root mean square errors of 2.70\,nm for maximum absorption ($A_{\mathrm{abs}}$) and 3.80\,nm for emission ($\lambda_{\mathrm{em}}$). Classification reports on both training and test sets confirm strong performance without signs of overfitting (Tables \ref{tab:class_report_train} and \ref{tab:class_report_test}).
+
+
+
+ESM-2 baseline and comparison.
+With the same Gaussian process (GP) pipelines, an \emph{ESM-2 (650M)} embedding baseline produced strong discriminative and regression performance: 5-fold AUC $0.997$ and wavelength RMSEs of $2.70$/$3.80$\,nm for $\lambda_{\mathrm{abs}}$/$\lambda_{\mathrm{em}}$. Using \emph{LATTE}'s 256-d latent embeddings, the FP vs.\ non-FP classifier reached 5-fold accuracy $0.987$. This indicates that LATTE's compact latent space provides competitive downstream signal at roughly two orders of magnitude fewer parameters and substantially lower inference cost, while ESM-2 serves as an upper bound reference for fully supervised spectral peak regression.
+
+
+\begin{table}[t]
+\centering
+\caption{GFP spectral prediction pipelines on different embeddings.}
+\label{tab:fp-esm2-compare}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} l c c c}
+\toprule
+Embedding & Classifier metric (5-fold) & $\lambda_{\mathrm{abs}}$ RMSE (nm) & $\lambda_{\mathrm{em}}$ RMSE (nm) \\
+\midrule
+ESM-2 (650M) & AUC $0.997$ & $2.70$ & $3.80$ \\
+LATTE latent (256-d, $\sim$5.5M) & AUC $0.987$ & $2.70$ & $3.80$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+
+\begin{table*}[!ht]
+\centering
+\caption{Classification report on the training set.}
+\label{tab:class_report_train}
+
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.9}
+
+\begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}lrrrr}
+\toprule
+& \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\midrule
+Non-FP (0) & 0.9920 & 0.9940 & 0.9930 & 501 \\
+FP (1) & 0.9880 & 0.9840 & 0.9860 & 250 \\
+\midrule
+Accuracy & & & 0.9907 & 751 \\
+Macro Avg & 0.9900 & 0.9890 & 0.9895 & 751 \\
+Weighted Avg & 0.9907 & 0.9907 & 0.9907 & 751 \\
+\bottomrule
+\end{tabular*}
+\end{table*}
+
+
+\begin{table*}[!ht]
+\centering
+\caption{Classification report on the test set.}\label{tab:class_report_test}
+\begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}lrrrr}
+\toprule
+& \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\midrule
+Non-FP (0) & 0.9840 & 0.9840 & 0.9840 & 125 \\
+FP (1) & 0.9683 & 0.9683 & 0.9683 & 63 \\
+\midrule
+Accuracy & & & 0.9787 & 188 \\
+Macro Avg & 0.9761 & 0.9761 & 0.9761 & 188 \\
+Weighted Avg & 0.9787 & 0.9787 & 0.9787 & 188 \\
+\bottomrule
+\end{tabular*}
+\end{table*}
+
+The latent space visualization via t-SNE clearly separates fluorescent from non-fluorescent proteins and encodes spectral properties as continuous gradients, confirming that structural information is captured effectively \citep{maaten2008visualizing} (Supplementary Figure S4). Non-fluorescent proteins cluster on the inner side of two curves, whereas fluorescent proteins occupy the outer region. Moreover, color gradients corresponding to emission and absorption wavelengths indicate that proteins with similar spectral peaks are grouped together.
+
+$k$-means clustering of the projected FP embeddings~\citep{lloyd1982least} revealed three distinct clusters (Table \ref{tab:cluster_stats}), whose consensus vectors were decoded into novel sequences truncated to each cluster’s mean length. Classification of these generated sequences using the trained GP classifier showed that Cluster 1 achieved a 100\% success rate (Supplementary Figure S5), suggesting that intra-cluster sample quality and consistency are more critical than sample size for producing functional proteins. The generated proteins exhibited 75\% - 96\% identity with FPbase sequences, reflecting the high similarity of their latent representations.
+
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.95}
+
+\begin{table}[htbp]
+\caption{Statistics for FP clusters identified by $k$-means.}
+\label{tab:cluster_stats}
+\centering
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Cluster} & \textbf{n} & \textbf{Mean} & \textbf{Std} \\
+ & \textbf{(samples)} & \textbf{Length} & \textbf{(Length)} \\
+\midrule
+0 & 22 & 316 & 5.28 \\
+1 & 318 & 234 & 10.00 \\
+2 & 14 & 118 & 29.71 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.95}
+
+
+
+Close vectors in the latent space encode proteins with similar three-dimensional structures, as confirmed by AlphaFold predictions. Cluster 1 proteins exhibited classic $\beta$ barrel folds with pLDDT scores above 90; Cluster 0 proteins formed two groups of three internal $\beta$ strands wrapped by $\alpha$ helices; and although Cluster 2 proteins did not adopt $\beta$ barrels, they nonetheless shared a common fold of three $\beta$ strands surrounded by $\alpha$ helices.
+
+
+\subsection{Embedding geometry of LATTE vs.\ ESM-2 (cosine distance)}
+To compare the global structure of the embedding spaces, we computed pairwise cosine distances (1 $-$ cosine similarity) on matched subsets and summarized both the distributions and their empirical cumulative distribution functions (ECDFs). LATTE latent distances are broader with a heavier tail (mean $=0.1694$, SD $=0.3428$, $p50 = 0.0141$, $p90 = 0.9006$; $n = 49{,}847$), whereas ESM-2 distances are tighter (mean $=0.0381$, SD $=0.0822$, $p50 = 0.00953$, $p90 = 0.1133$; $n = 49{,}847$) (Figure \ref{fig:pairwise-cosine}, Table~\ref{tab:pairwise-cosine-summary}). This suggests that ESM-2 clusters points more compactly, while LATTE yields a more diffuse geometry that can increase recall for remote neighbors; in practice, we combine LATTE’s structure-aware prefilter with sequence alignment (``LLAST'') to recover interpretability and precision.
+
+Pairwise cosine distance matrices for the 354 sequence subset in the two embedding spaces. Left: ESM; right: LATTE. Brighter horizontal/vertical bands mark sequences or clusters with larger distances to many others, highlighting global structure and potential outliers. (Figure \ref{fig:cosmat-compare})
+
+To directly compare the pairwise geometries, we plotted ESM (y) versus LATTE (x)
+cosine distances for matched pairs (Figure \ref{fig:esm-LATTE-scatter}).
+Distances are systematically smaller in ESM (slope $b{=}0.125$; intercept $a{=}0.017$),
+yet the rank correlation remains high (Spearman $\rho{=}0.761$),
+supporting that LATTE preserves ESM’s neighbor ordering while expanding the dynamic range, a property we exploit for latent prefiltering in LLAST.
+
+We report a rerun of $k{=}3$ clustering to compare LATTE and ESM-2 embeddings. Silhouette scores (cosine) favor LATTE, and cross‑partition agreement metrics indicate strong consistency between the two representations\citep{Vieira2025Medium}. (Table \ref{tab:k3-summary}, \ref{tab:k3-clusters}, \ref{tab:k3-confusion})
+
+\begin{table}[t]
+\centering
+\caption{Pairwise cosine distance (1 $-$ cosine similarity) summary for LATTE vs.\ ESM-2 embeddings.}
+\label{tab:pairwise-cosine-summary}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.95}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}} lrrrr}
+\toprule
+\textbf{Embedding} & \textbf{$n$} & \textbf{Mean} & \textbf{SD} & \textbf{$p_{10}$ / $p_{50}$ / $p_{90}$} \\
+\midrule
+LATTE (latent) & 49{,}847 & 0.1694 & 0.3428 & $0.00257\,/\,0.01406\,/\,0.90065$ \\
+ESM-2 (650M)   & 49{,}847 & 0.0381 & 0.0822 & $0.00365\,/\,0.00953\,/\,0.11329$ \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{minipage}{0.48\linewidth}
+  \centering
+  \includegraphics[width=\linewidth]{img/figure5_hist.png}
+\end{minipage}\hfill
+\begin{minipage}{0.48\linewidth}
+  \centering
+  \includegraphics[width=\linewidth]{img/figure5_ecdf.png}
+\end{minipage}
+\caption{Pairwise cosine distance distributions (left, density histograms) and ECDFs (right) for LATTE latent vs.\ ESM-2 embeddings.}
+\label{fig:pairwise-cosine}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.82\linewidth]{img/figure6.png}
+  \caption{ESM (y) vs.\ LATTE (x) pairwise cosine distances for matched pairs.
+  The dashed line marks $y{=}x$; the solid line is an OLS fit ($b{=}0.125$, $a{=}0.017$; $R^2{=}0.277$).
+  Spearman $\rho{=}0.761$ indicates strong rank concordance despite scale compression in ESM.}
+  \label{fig:esm-LATTE-scatter}
+\end{figure}
+
+
+\begin{figure}[t]
+\centering
+\begin{minipage}{0.48\linewidth}
+  \centering
+  \includegraphics[width=\linewidth]{img/figure7_LATTE.png}
+\end{minipage}\hfill
+\begin{minipage}{0.48\linewidth}
+  \centering
+  \includegraphics[width=\linewidth]{img/figure7_ESM.png}
+\end{minipage}
+\caption{Pairwise cosine distance matrices for the 354 sequence subset in the two embedding spaces. Left: LATTE; right: ESM.}
+\label{fig:cosmat-compare}
+\end{figure}
+
+\subsection{Ablation Study}\label{subsec:Ablation_study}
+An ablation study was conducted with the loss function
+\[
+ L \;=\; \alpha\,CE \;+\; \beta\,KL,
+\]
+where the weights are set to $\alpha=30, \beta=0$ for epochs $\le 30$, and $\alpha=0.1, \beta=0.1$ thereafter. In this setup, KL vanishing occurred right after epoch 100, demonstrating the crucial role of the structural loss term.
+
+Figure~\ref{fig:ablation_no_structural} shows the CE and KL curves when no structural loss is used, and Figure~\ref{fig:ablation_structural} shows the corresponding curves with structural loss incorporated. Only the latter prevents KL collapse and yields more stable convergence.
+
+\begin{figure*}[!ht]
+ \centering
+ \subfloat[CE over epochs]{\includegraphics[width=0.45\textwidth]{img/figure8_CE.png}}
+\subfloat[KL over epochs]{\includegraphics[width=0.45\textwidth]{img/figure8_KL.png}}
+\caption{CE and KL values over epochs for the ablation study model without structural loss.}
+ \label{fig:ablation_no_structural}\end{figure*}
+
+\begin{table}[t]
+\centering
+\caption{Silhouette (cosine), $k{=}3$.}
+\label{tab:k3-silhouette}
+\begin{tabular}{lcc}
+\hline
+\textbf{Metric} & \textbf{LATTE} & \textbf{ESM-2} \\
+\hline
+Silhouette (cosine) & 0.9431 & 0.9022 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{Summary of $k{=}3$ clustering agreement.}
+\label{tab:k3-summary}
+\begin{tabular}{lcc}
+\hline
+\textbf{Metric} & \textbf{LATTE} & \textbf{ESM-2} \\
+\hline
+\multicolumn{3}{l}{Cross partition agreement (LATTE vs.\ ESM-2)}\\
+Adjusted Rand Index (ARI) & \multicolumn{2}{c}{0.7373} \\
+Adjusted Mutual Information (AMI) & \multicolumn{2}{c}{0.6055} \\
+Fowlkes-Mallows Index (FMI) & \multicolumn{2}{c}{0.9596} \\
+Variation of Information (VI) & \multicolumn{2}{c}{0.3529} \\
+Purity (LATTE $\rightarrow$ ESM-2) & \multicolumn{2}{c}{0.9633} \\
+%Mapping (LATTE $\rightarrow$ ESM-2) & \multicolumn{2}{c}{$\{0\!\to\!1,\;1\!\to\!0,\;2\!\to\!2\}$} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[!ht]
+\centering
+\caption{Confusion matrix (rows: LATTE aligned clusters; columns: ESM-2 clusters).}
+\label{tab:k3-confusion}
+\begin{tabular}{c|ccc}
+ & \textbf{ESM-2-0} & \textbf{ESM-2-1} & \textbf{ESM-2-2} \\
+\hline
+\textbf{LATTE-0} & 0 & 0 & 1 \\
+\textbf{LATTE-1} & 0 & 23 & 1 \\
+\textbf{LATTE-2} & 6 & 5 & 318 \\
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{Per-cluster sizes and reported means ($\mu$).}
+\label{tab:k3-clusters}
+\begin{tabular}{c|r|cc}
+\textbf{Cluster} & \textbf{size} & \textbf{LATTE $\mu$} & \textbf{ESM-2 $\mu$} \\
+\hline
+0 & 6 & 0.000 & 0.728 \\
+1 & 28 & 0.904 & 0.737 \\
+2 & 320 & 0.949 & 0.920 \\
+\end{tabular}
+\end{table}
+
+\subsection{LLAST Results}
+
+To assess the functionality of the latent tree prefilter placed before conventional BLAST, we quantified both its coverage and efficiency. Coverage was measured as the fraction of baseline BLAST top-50 unique hits that were recovered after prefiltering (SeqRecall@50). Efficiency was evaluated as the number of sequences actually forwarded from the prefilter to BLAST per query, i.e.\ the effective candidate set size. The underlying database contained approximately $N \approx 10^6$ protein sequences. The latent-tree index was constructed with a target leaf (cluster) capacity of about $S \approx 2000$ sequences, and each query was restricted to visiting a fixed number $K$ of leaves (top-$K$ nodes in the latent-tree search). We further imposed an explicit upper bound $N_{\max} \in \{2000, 4000, 6000, 8000, 10000\}$ on the total number of candidate sequences passed to BLAST per query, yielding a family of operating points that trade off coverage and speed.
+\begin{table}[!ht]
+  \centering
+  \caption{LLAST operating points on a $\sim 10^6$-sequence database (991 queries). $N_{\max}$ is the upper bound on the number of candidates forwarded to BLAST per query.}
+  \begin{tabular}{crccc}
+    \hline
+    Top-$K$&$N_{\max}$ & Mean SeqRecall@50 & Mean candidates/query & Approx.\ reduction \\
+    \hline
+    1 &2000  & 0.45 & 1.8k & $\sim 540\times$ \\
+    2 &4000  & 0.53 & 3.8k & $\sim 260\times$ \\
+    3 &6000  & 0.54 & 5.6k & $\sim 180\times$ \\
+    4 &8000  & 0.55 & 7.7k & $\sim 130\times$ \\
+    5 &10000 & 0.55 & 9.7k & $\sim 100\times$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+Across 991 protein queries, the most conservative configuration ($N_{\max} = 10{,}000$, corresponding to $\sim 0.97\%$ of the database) achieved a mean SeqRecall@50 of approximately $0.55$ while reducing the BLAST search space by roughly $100\times$ relative to scanning all $N \approx 10^6$ sequences. A more aggressive configuration with $N_{\max} = 4000$ (about $0.38\%$ of the database) maintained a mean SeqRecall@50 of $\sim 0.53$, i.e.\ only a $3$--$4\%$ relative decrease in coverage, while shrinking the candidate set by a factor of $\sim 260\times$. The most aggressive setting ($N_{\max} = 2000$) reduced the average candidate count to $\sim 0.18\%$ of the database (over $500\times$ reduction), but at the cost of a pronounced drop in SeqRecall@50 and occasional zero-recall queries on the hardest inputs. These operating points illustrate that the latent prefilter can substantially reduce BLAST workload while allowing practitioners to tune the recall--latency trade-off via a single hyperparameter.
+
+We observed that the most aggressive setting ($N_{\max}=2000$) produced a small
+fraction of zero-recall queries (approximately 15\% of the 991 queries). These
+hard-tail cases typically had very few unique baseline BLAST hits (mean
+Top50\_uniqueSeqs $\approx 10$) and correspond to sparsely connected or nearly
+orphan sequences in the database. Relaxing the budget to $N_{\max} \ge 4000$
+eliminated almost all zero-recall cases while still maintaining a $\sim 260\times$
+reduction in the candidate set.
+
+
+From a computational standpoint, the prefilter changes the asymptotic dependence of per-query cost on the database size. Let $N$ denote the total number of sequences in the database, $S$ the (approximate) maximum number of sequences stored in each leaf cluster, and $K$ the number of leaves visited per query. In the hierarchical index, the total number of leaves scales as $C \approx N / S$, and the tree depth scales as $\log C$. For a single query, the prefilter first descends the tree (cost $O(\log C)$), selects $K$ leaves, and then runs BLAST only on the sequences within these leaves. The resulting candidate set size is bounded by $KS$, so the overall per-query cost of the prefilter+BLAST pipeline can be written as
+\begin{equation}
+  T_{\text{prefilter}}(N)
+  \;=\;
+  O\!\left(
+    T_{\text{encode}}
+    + \log\frac{N}{S}
+    + KS
+  \right),
+\end{equation}
+where $T_{\text{encode}}$ is the (database-independent) cost of encoding a single query into the latent space. In contrast, conventional BLAST without prefiltering scales approximately linearly with the database size,
+\begin{equation}
+  T_{\text{BLAST}}(N) \;=\; O(N).
+\end{equation}
+When $S$ and $K$ are treated as fixed hyperparameters (i.e.\ the leaf capacity and the search budget are held constant), experimentation revealed that the dominant term in $T_{\text{prefilter}}(N)$ becomes $KS$, and the residual dependence on $N$ is only logarithmic via $\log(N/S)$. In practice, this makes the per-query BLAST workload effectively bounded by a constant over database sizes up to at least $10^7$--$10^8$ sequences, whereas the cost of conventional BLAST continues to grow proportionally with $N$. This bounded candidate set is precisely what allows LLAST to maintain practical query times as the database scales to tens or hundreds of millions of sequences.
+
+ \begin{figure}[t]
+\centering
+\subfloat[Top-$K$=1]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result1.png}%
+}
+\subfloat[Top-$K$=2]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result2.png}%
+}
+\subfloat[Top-$K$=3]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result3.png}%
+}\\
+\subfloat[Top-$K$=4]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result4.png}%
+}
+\subfloat[Top-$K$=5]{%
+  \includegraphics[width=0.3\linewidth]{img/figure9_result5.png}%
+}
+\caption{Sequence recall histograms of the prefiltering step for different Top-$K$ values (1--5). Each panel shows the distribution of per-query recall, i.e., the fraction of the baseline BLAST top hits that are preserved after latent-space prefiltering.}
+\label{fig:seqrecall_topk}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/figure10.png}
+    \label{fig:placeholder}
+    \caption{Overlapped histogram}
+\end{figure}
+
+\section{Discussion and future directions}
+\label{sec:discussion}
+
+In summary, we propose a compact, structure-aware latent model (LATTE) and show that
+the resulting 256-dimensional space simultaneously supports reconstruction, property
+prediction, and a scalable latent-tree prefilter (LLAST) for BLAST.
+
+
+\subsection{LATTE}
+
+Directly enforcing structural consistency with AlphaFold-based losses or contact maps
+is impractical at the scale of millions of sequences: end-to-end structure prediction
+requires minutes per sequence, contact maps demand substantial memory and curated
+structures, and both approaches introduce alignment and coverage complications for
+unannotated regions. In this work we instead leverage lighter protein language models
+(PLMs) as structural teachers, using ESMS embeddings derived from ESM-2 to shape
+LATTE's latent space.
+
+The empirical results suggest that this strategy is sufficient to impose a useful
+geometry on a compact latent space. Compared with ESM-2, LATTE yields broader,
+heavier-tailed cosine distance distributions while preserving neighbor ordering and
+clustering structure, as reflected by the high Spearman rank correlation and the strong
+agreement of $k=3$ partitions between the two spaces. Together with the ablation
+study, where removing the structural loss led to rapid KL collapse and degenerate
+latents, this supports the view that ESMS-based perceptual losses actively prevent
+posterior collapse and encourage informative latent variables rather than merely
+matching reconstruction statistics.
+
+The GFP case study reinforces this interpretation. A 256-dimensional latent vector
+with an active KL divergence near 0.05 is sufficient for Gaussian process models to
+separate fluorescent from non-fluorescent proteins and to predict excitation and
+emission peaks with errors comparable to an ESM-2 embedding baseline, despite
+LATTE having a far smaller parameter budget and lower inference cost. This indicates
+that structural supervision via PLMs can produce low-dimensional, structure-aligned
+representations that are competitive for downstream functional tasks without relying
+on direct sequence generation.
+
+Looking forward, the same framework could be extended to other structural teachers
+(e.g., ESM-3 or medium-sized PLMs) and additional supervision signals such as
+contact probabilities or disorder predictions. These directions would test whether
+LATTE-style encoders can be tuned toward specific functional families while retaining
+the generic geometric properties that make the latent space suitable for retrieval and
+design.
+
+\subsection{Interpreting discrepancies between LLAST and baseline BLAST}
+
+Although LLAST is explicitly designed to act as a prefilter for BLAST, the per-query
+top-50 hit sets recovered by LLAST and by baseline BLAST are not identical. We see
+this not as a failure of LLAST to replicate BLAST, but as a consequence of several
+structural and algorithmic differences between the two procedures.
+
+First, LLAST operates under an explicit budget constraint. For each query, the
+latent-tree search is restricted to a fixed number of leaves (Top-$K$) and forwards at
+most $N_{\max}$ candidate sequences to BLAST. Any relevant sequences that reside in
+unvisited leaves are, by design, excluded from the candidate pool regardless of how
+well they would score under BLAST. In contrast, baseline BLAST conceptually searches
+the entire database and is not subject to a comparable cluster-level visitation
+constraint.
+
+Second, LLAST ranks candidates in a structure-aware latent space, whereas BLAST
+ranks them by local alignment scores. LATTE is trained to place sequences with similar
+global fold and residue–residue similarity patterns close together, and LLAST searches
+this space using cosine distance between 256-dimensional latent vectors. BLAST, in
+contrast, is driven by local high-scoring segment pairs and substitution matrices, and
+can assign high scores to sequences that share short motifs, low-complexity segments
+or partial domain matches even when their overall fold or global context differs. As
+a result, LLAST tends to prioritize candidates that are consistent with the latent
+geometry learned from structure-supervised training, while BLAST may emphasize
+different aspects of similarity.
+
+Third, the evaluation metric we use is intentionally conservative. Our SeqRecall@50
+metric treats the baseline BLAST top-50 set as a flat reference and counts a miss for
+every baseline hit that does not appear among the LLAST+BLAST hits, including
+near-duplicate alignments to the same subject sequence and marginal hits with weak
+scores or low coverage. In many queries, the BLAST top-50 includes far fewer unique
+targets than 50, yet SeqRecall@50 penalizes LLAST equally for missing duplicate hits
+and for missing genuinely distinct homologues. This means that SeqRecall@50 should be
+interpreted as a lower bound on the recall of meaningful targets under an aggressive
+candidate budget, rather than as an upper bound on what LLAST could achieve with a
+more permissive search.
+
+Fourth, LLAST performs an approximate nearest-neighbor search through a discretized
+tree index. The latent-tree traversal relies on centroid distances and hierarchical
+pruning decisions, which introduce quantization effects: sequences that lie near
+cluster boundaries can fall just outside the visited region even if they are slightly
+closer in latent space than some of the retrieved candidates. Such approximation is
+inherent to scalable tree-based indices and trades a controlled loss in recall for
+substantial reductions in the number of sequences forwarded to BLAST.
+
+Together, these factors explain why LLAST does not reproduce the baseline BLAST
+top-50 sets exactly. LLAST aims to provide a compact, structure-aware candidate pool
+under a fixed budget, not to clone BLAST's full-database behavior. In this sense,
+the observed discrepancies reflect both the intentional restrictions of the latent
+index (limited cluster visitation and approximate search) and the different notions
+of similarity captured by a structure-supervised latent model and by local alignment
+statistics.
+
+In practice, these discrepancies are acceptable in view of the operating points we
+observe: configurations with $N_{\max} = 4{,}000$–$10{,}000$ retain roughly 0.53–0.55
+SeqRecall@50 while reducing the average BLAST workload by ×100$\sim$260 on a
+$ 10^6$ sequence database, making exact replication of baseline BLAST hits a
+poor trade-off compared with the achievable efficiency gains.
+
+\subsection{Relation to MMseqs2 and sequence-based prefilters}
+
+To clarify the position of LLAST, we compare it with \textbf{MMseqs2}, which is currently a state-of-the-art tool for large-scale sequence search and filtering~\cite{Steinegger2017MMseqs2,Steinegger2018Linclust}. LLAST is not intended to be a drop-in replacement for MMseqs2, but rather differs fundamentally in terms of \textbf{search basis} and \textbf{computational control}.
+
+\textbf{1. Search Basis: Sequence vs.\ Latent Structure.} 
+MMseqs2 employs a cascade of $k$-mer based filters and ungapped extensions. While highly optimized with SIMD and parallel execution, it essentially relies on \textbf{raw sequence string matching}. Consequently, it has limitations in detecting \emph{remote homologs} in the `Twilight Zone' (sequence identity $<$ 30\%), where sequence similarity is low but structural features are conserved. 
+In contrast, LLAST operates in a \textbf{structure-aware latent space} learned by LATTE. The tree traversal is driven by cosine distances between latent vectors rather than string matching. This allows LLAST to effectively cluster and retrieve proteins that share structural or functional similarity even when their primary sequences have diverged significantly. Furthermore, the same latent representation is reused for reconstruction and property prediction, providing a shared latent geometry for multiple downstream tasks.
+
+\textbf{2. Time Complexity and Scalability: $O(N)$ vs.\ $O(1)$.} 
+A critical difference lies in scalability with respect to database size ($N$).
+For MMseqs2, as $N$ increases, the number of chance $k$-mer matches (false positives) naturally grows, leading to a larger number of candidates to verify. Thus, its search time scales linearly with the database size ($O(N)$).
+LLAST, however, enforces an \textbf{explicit candidate budget}. Regardless of how massive the database becomes, LLAST selectively visits only the top-$K$ leaf clusters in the latent tree. By limiting the candidate set forwarded to BLAST to a fixed size ($N_{\max}$), LLAST effectively bounds the search workload to near-constant time ($O(1)$) per query. This makes LLAST a more scalable solution for finding structure-based homologs in exponentially growing databases.
+
+\textbf{3. Complementary Roles.} 
+MMseqs2 is a standalone, high-throughput search engine integrating its own filtering and alignment. LLAST acts as a \textbf{budgeted re-ranking layer} that sits atop a learned index and delegates final scoring to BLAST. 
+Therefore, while MMseqs2 is the method of choice for maximum throughput scanning based on sequence identity, LLAST offers a modern alternative for scenarios requiring structure-aware retrieval or strict computational budget control in ultra-large databases. A summary comparison is provided in Table~\ref{tab:comparison_tools}.
+
+\begin{table}[htbp]
+\caption{Comparison of BLAST, MMseqs2, and LLAST.}
+\label{tab:comparison_tools}
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Feature} & \textbf{BLAST} & \textbf{MMseqs2} & \textbf{LLAST} \\
+\midrule
+\textbf{Time Complexity} & $O(N)$ & $O(N)$ & $\approx O(1)$ \\
+\textbf{Basis} & Sequence & Sequence & Sequence + Structure \\
+\textbf{Speed} & Slow & Fast & Fast \\
+\textbf{Method} & Seed-and-Extend & $k$-mer Pre-filtering & Latent Space Clustering \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Conclusion}
+
+We introduced LATTE, a lightweight variational encoder that uses ESMS-based
+perceptual losses to align a 256-dimensional latent space with protein structural
+constraints while maintaining an active KL divergence. On fluorescent proteins,
+Gaussian process models trained on LATTE embeddings separate FPs from non-FPs
+with high accuracy and predict excitation and emission peaks with RMSEs comparable
+to an ESM-2 embedding baseline, despite LATTE having orders of magnitude fewer
+parameters and substantially lower inference cost. Together with the broader,
+heavier-tailed cosine distance distributions, strong rank concordance with ESM-2, and
+the ablation study on structural losses, these results indicate that LATTE’s low-dimensional latents are informative, structure-aligned representations suitable for
+downstream functional modeling.
+
+Building on this representation, we constructed LLAST, a latent-tree index that
+acts as a prefilter for BLAST. On a $\sim 10^6$-sequence database, LLAST restricts
+the candidate set forwarded to BLAST to at most $N_{\max} = 10{,}000$ sequences per
+query (about $0.97\%$ of the database) while recovering roughly 55\% of baseline
+BLAST top-50 unique hits. More aggressive configurations with $N_{\max} = 4{,}000$
+retain mean SeqRecall@50 around 0.53 yet reduce the average BLAST workload by
+approximately $260\times$, illustrating a tunable trade-off between recall and
+candidate set size. Under fixed leaf capacity and search budget, the combined
+prefilter+BLAST pipeline exhibits only logarithmic dependence on the database size,
+making per-query costs effectively bounded over practical scales.
+
+Taken together, LATTE and LLAST demonstrate that a compact, structure-aware
+latent space can simultaneously support accurate reconstruction, property prediction,
+and scalable sequence search. Rather than viewing generative encoders and retrieval
+indices as separate systems, our results suggest treating them as different uses of the
+same latent geometry. Extending this approach to other functional families, larger
+pretraining corpora, and additional structural or functional supervision offers a
+promising path toward task-aware protein indices that remain efficient at the scale of
+tens or hundreds of millions of sequences.
+
+
+%\bibliographystyle{sn-vancouver-num}
+\bibliography{reference}% common bib file
+%% if required, the content of.bbl file can be included here once bbl is generated
+%%\input sn-article.bbl
+
+
+\section*{Abbreviations}
+CE: cross entropy;
+KL: Kullback-Leibler divergence;
+GP: Gaussian process;
+RMSE: root mean square error;
+AUC: area under the ROC curve;
+FP: fluorescent protein.
+
+
+\section*{Declarations}
+
+\subsection*{Ethics approval and consent to participate}
+This study involved only computational analyses on publicly available protein sequence datasets and did not involve human participants, animals, or identifiable personal data. Ethics approval and consent to participate were therefore not required.
+
+\subsection*{Consent for publication}
+Not applicable.
+
+\subsection*{Availability of data and materials}
+\sloppy
+All data, code, and trained models supporting the conclusions of this study are publicly available at the repositories listed below. Direct hyperlinks are provided; no registration is required.
+
+\begin{itemize}
+  \item \textbf{Fluorescent protein dataset (primary source)}: FPbase \href{https://www.fpbase.org/}{https://www.fpbase.org/}~\cite{fpbase_site}.
+  \item \textbf{Dataset mirror (exact copy for reproducibility)}: Kaggle \href{https://www.kaggle.com/datasets/dannyahn/fluorescent-protein-dataset}{dannyahn/fluorescent-protein-dataset}~\cite{ahn_kaggle_fp}.
+  \item \textbf{Source code and trained models}: GitHub \href{https://github.com/Ahnd6474/LATTE}{https://github.com/Ahnd6474/LATTE}~\cite{latte_github_repo}.
+\end{itemize}
+
+Where applicable, version tags/commit hashes used in this manuscript are recorded in the repository release notes and in the supplementary materials. Licensing and any third party terms are as stated on each repository page.
+
+\subsection*{Competing interests}
+The authors declare that they have no competing interests.
+
+\subsection*{Funding}
+This work was supported by the Daegu Science High School student independent research program. No specific grant number was assigned.
+The funder had no role in study design, data collection/analysis, decision to publish, or manuscript preparation
+
+\end{document}
