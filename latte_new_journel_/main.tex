@@ -192,6 +192,13 @@ It has been shown that transformer architectures are capable of capturing hidden
 
 BLAST, the NCBI sequence search system, is highly informative but its per query runtime scales roughly linearly with database size. In practice it still scans large portions of the library for each query, repeatedly revisiting near duplicate or highly similar sequences. To address this, we introduce a LATTE based prefilter that encodes sequences into a latent space and prunes unrelated entries prior to alignment. By removing off target candidates early, the prefilter reduces the search set and improves BLAST’s efficiency and speed while preserving downstream alignment behavior.
 
+Unlike prior work that (i) uses large PLMs as fixed feature extractors, 
+(ii) trains autoencoders primarily for generative design, or 
+(iii) accelerates BLAST using purely sequence-based filters or generic ANN indices,
+we focus on a compact, structure-aware latent space that is explicitly reused for both
+downstream modeling and a tree-based prefilter.
+
+
 \section{Methods}\label{sec:methods}
 \subsection{Shaping the latent space}
 We trained LATTE with a pseudo decoder which acts as a training signal generator that receives encoder memory and latent vectors. Moreover, we enforce structural consistency via a perceptual loss computed from pretrained ESMS embeddings, which capture residue position regularities at substantially lower cost than full structure predictors. Given an original sequence \(\mathbf{x}_{\mathrm{orig}}\) and its reconstruction \(\mathbf{x}_{\mathrm{recon}}\), we form two embedding based terms.
@@ -586,6 +593,12 @@ When $S$ and $K$ are treated as fixed hyperparameters (i.e.\ the leaf capacity a
 
 \section{Discussion and future directions}
 \label{sec:discussion}
+
+In summary, we propose a compact, structure-aware latent model (LATTE) and show that
+the resulting 256-dimensional space simultaneously supports reconstruction, property
+prediction, and a scalable latent-tree prefilter (LLAST) for BLAST.
+
+
 \subsection{LATTE}
 
 Directly enforcing structural consistency with AlphaFold-based losses or contact maps
@@ -681,6 +694,39 @@ SeqRecall@50 while reducing the average BLAST workload by 100–260× on a
 $\sim 10^6$-sequence database, making exact replication of baseline BLAST hits a
 poor trade-off compared with the achievable efficiency gains.
 
+\subsection{Relation to MMseqs2 and sequence-based prefilters}
+
+A natural point of comparison for LLAST is MMseqs2, which is widely used as a
+highly optimized prefilter and as a stand-alone alternative to BLAST in large-scale
+sequence search. MMseqs2 employs a cascade of $k$-mer based filters and ungapped
+extensions to rapidly prune the search space prior to gapped alignment, and its
+implementation has been carefully optimized with SIMD vectorization and parallel
+execution to achieve near-linear scaling on large databases. LLAST is not intended
+as a drop-in replacement for MMseqs2, nor as a new state-of-the-art sequence-only
+filter.
+
+Conceptually, LLAST differs from MMseqs2 in two principal respects. First, LLAST
+operates in a compact, structure-aware latent space learned by LATTE, and its tree
+traversal is driven by cosine distances between 256-dimensional latent vectors rather
+than by $k$-mer matches on raw sequences. The same latent representation is reused
+for reconstruction, downstream property prediction and retrieval, whereas MMseqs2
+is specialized for fast sequence comparison and does not expose a shared latent
+geometry that can be directly integrated into downstream models. Second, LLAST
+enforces an explicit, user-controllable candidate budget (via $N_{\max}$ and TopK)
+and delegates the final scoring to BLAST, effectively turning BLAST into a budgeted
+re-ranking layer on top of a learned index. By contrast, MMseqs2 integrates its own
+filtering and alignment stages and is typically employed either as a complete search
+pipeline or as a drop-in replacement for BLAST in high-throughput workflows.
+
+From this perspective, LLAST should be regarded as complementary to tools such as
+MMseqs2 rather than as a direct competitor. In scenarios where the primary objective
+is to scan very large databases with maximal throughput, sequence-based engines
+such as MMseqs2 remain the method of choice. The present work instead demonstrates
+that a single structure-aligned latent space can support both functional modeling and
+a latent-tree prefilter that substantially reduces the BLAST workload under an
+explicit candidate budget. A systematic, wall-clock comparison with MMseqs2 on
+shared hardware and databases would be valuable, but lies beyond the scope of this
+study.
 
 \section{Conclusion}
 
