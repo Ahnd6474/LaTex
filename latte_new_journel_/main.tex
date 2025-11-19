@@ -698,7 +698,7 @@ poor trade-off compared with the achievable efficiency gains.
 
 A natural point of comparison for LLAST is MMseqs2, which is widely used as a
 highly optimized prefilter and as a standalone alternative to BLAST in large-scale
-sequence search. MMseqs2 employs a cascade of $k$-mer based filters and ungapped
+sequence search~\cite{Steinegger2017MMseqs2,Steinegger2018Linclust}. MMseqs2 employs a cascade of $k$-mer based filters and ungapped
 extensions to rapidly prune the search space prior to gapped alignment, and its
 implementation has been carefully optimized with SIMD vectorization and parallel
 execution to achieve near-linear scaling on large databases. LLAST is not intended
